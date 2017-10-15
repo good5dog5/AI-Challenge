@@ -1,5 +1,8 @@
 # AI-test
 
+How to write kNN by TensorFlow (大神的感覺) <br/>
+http://marubon-ds.blogspot.tw/2017/09/knn-k-nearest-neighbors-by-tensorflow.html <br/>
+
 KNN <br/>
 http://dataaspirant.com/2016/12/27/k-nearest-neighbor-algorithm-implementaion-python-scratch/ <br/>
 
