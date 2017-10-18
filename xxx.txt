@@ -1,0 +1,6 @@
+https://www.dataquest.io/blog/k-nearest-neighbors-in-python/
+#k-Nearest-Neighbor Classifier
+https://www.python-course.eu/k_nearest_neighbor_classifier.php
+#机器学习算法与Python实践之（一）k近邻（KNN）
+http://blog.csdn.net/zouxy09/article/details/16955347
+
