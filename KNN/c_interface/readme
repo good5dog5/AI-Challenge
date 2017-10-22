@@ -1,0 +1,5 @@
+#usage
+# step 1 compiling c/c++
+make libkernel
+# setp 2 run python
+python main.py
