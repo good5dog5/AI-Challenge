@@ -56,24 +56,27 @@ def load_kNN(lib_name) :
     c_ptr_obj_float  = np.ctypeslib.ndpointer(dtype=np.float32, ndim=1, flags='C_CONTIGUOUS')
     c_ptr_obj_double = np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS')
     libcfunc = ctypes.cdll.LoadLibrary(lib_name)
-    libcfunc.kernel.restype = None
-    libcfunc.kernel.argtypes = (c_ptr_obj_int, ctypes.c_int,
-                                c_ptr_obj_float,
-                                c_ptr_obj_int,
-                                ctypes.c_int, ctypes.c_int)
+
+    libcfunc.predict.restype = None
+    libcfunc.predict.argtypes = (c_ptr_obj_int, ctypes.c_int,
+                                c_ptr_obj_float,ctypes.c_int,
+                                c_ptr_obj_float,ctypes.c_int,
+                                c_ptr_obj_int , ctypes.c_int)
     return libcfunc
 
-def run_kNN(libkNN, k, weight, group, NumData, Numfeature) :
-    weight_1d = np.array(weight).flatten()
+def run_kNN(libkNN, k, target, NumTarget, source, NumSource, group, Numfeature) :
+    target_1d = np.array(target).flatten()
+    source_1d = np.array(source).flatten()
     group__1d = np.array(group).flatten()
     result_1d = np.zeros(NumData * k)
 
-    weight_1d = weight_1d.astype(np.float32)
+    target_1d = target_1d.astype(np.float32)
+    source_1d = source_1d.astype(np.float32)
     group__1d = group__1d.astype(np.int32)
     result_1d = result_1d.astype(np.int32)
 
-    libkNN.kernel(result_1d, k, weight_1d, group__1d, NumData, Numfeature)
-    result = np.reshape(result_1d,(NumData,k))
+    libkNN.predict(result_1d, k, target_1d, NumTarget, source_1d, NumSource, group__1d, Numfeature)
+    result = np.reshape(result_1d,(NumTarget,k))
     return result
 
 def encoder_result_kNN(group) :
@@ -133,8 +136,8 @@ Sample = 5000
 #Sample = train_data.shape[0]
 k = 1
 libc_kNN = load_kNN('./libkernel.so')
-result = run_kNN(libc_kNN, k, kNN_W, kNN_L,Sample,kNN_W.shape[1])
-result_encode = encoder_result_kNN(result)
+#result = run_kNN(libc_kNN, k, kNN_W, kNN_L,Sample,kNN_W.shape[1])
+#result_encode = encoder_result_kNN(result)
 
 ### train probability ###
 print("run training...")
