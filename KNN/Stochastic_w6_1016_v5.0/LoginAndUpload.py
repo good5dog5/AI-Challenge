@@ -8,6 +8,7 @@ def Jordan_upload(FileName):
     from selenium.webdriver.common.by import By
     from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
     from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
+    from selenium.common.exceptions import TimeoutException
     from bs4 import BeautifulSoup
     
     #print(__name__)
@@ -44,10 +45,14 @@ def Jordan_upload(FileName):
     try:
         # 一直等到出現"得分"兩字，最多等20秒
         element = WebDriverWait(driver, 20).until(EC.text_to_be_present_in_element((By.ID, "up_result"), "得分"))
+        result = driver.find_element_by_id('up_result')                                                             
+        result_txt=result.text                                                                                      
+    except TimeoutException as ex:
+        result_txt = "Something go wrong"
+        
     finally:
-        result = driver.find_element_by_id('up_result')
-        result_txt=result.text
-        print(FileName[0]+str(FileName[1]), result_txt)
+        fname = FileName[0]+str(FileName[1]) 
+        print(fname, result_txt) 
 
     driver.quit()
     #return result_txt
